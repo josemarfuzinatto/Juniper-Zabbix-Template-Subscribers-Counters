@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.0</version>
+    <date>2025-12-23T17:20:55Z</date>
+    <groups>
+        <group>
+            <uuid>809fefcea89f400882298c37022108f5</uuid>
+            <name>Junos</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <uuid>c0fb619a4f134884baf447991fedb3f5</uuid>
+            <template>Juniper MX204 Subscribers Counters</template>
+            <name>Juniper MX204 Subscribers Counters</name>
+            <groups>
+                <group>
+                    <name>Junos</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>7a58b798dc35460883fa8efc81ca9aae</uuid>
+                    <name>CPU Load</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.2636.3.1.13.1.21.9.1.0.0</snmp_oid>
+                    <key>cpu.utilization</key>
+                    <delay>30</delay>
+                    <value_type>FLOAT</value_type>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>0.01</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>de763a5976a34a4e8a030c8ef97f1051</uuid>
+                            <expression>avg(/Juniper MX204 Subscribers Counters/cpu.utilization,10m)&gt;50</expression>
+                            <name>CPU Muito Alto em {HOST.NAME}</name>
+                            <priority>DISASTER</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>3aa34024c08d4c8fb49fecd68784bf78</uuid>
+                    <name>Memory</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.2636.3.1.13.1.11.9.1.0.0</snmp_oid>
+                    <key>memory.utilization</key>
+                    <delay>30</delay>
+                    <units>%</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memoria</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>b01097d4a8034591ba6ab746fdc193f8</uuid>
+                            <expression>avg(/Juniper MX204 Subscribers Counters/memory.utilization,10s)&gt;96</expression>
+                            <name>Uso de memória muito alto em {HOST.NAME}</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>52ac4021a9944297868acbb6e265697f</uuid>
+                    <name>Percentual Subscribers com IPv6</name>
+                    <type>CALCULATED</type>
+                    <key>percert.subscribers.ipv6</key>
+                    <delay>3m</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <params>(last(//total.subscribers.soma.ipv6)*100)/last(//total.subscribers.pppoe)</params>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Subscribers</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>9982d8859fa94736bbf3705e7d05950e</uuid>
+                    <name>Temperature</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.2636.3.1.13.1.7.9.1.0.0</snmp_oid>
+                    <key>temp.junos</key>
+                    <delay>30</delay>
+                    <units>ºC</units>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Health</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>c3cbd5e55a7c4fcaa41d1893c5869ca6</uuid>
+                            <expression>avg(/Juniper MX204 Subscribers Counters/temp.junos,5s)&gt;50</expression>
+                            <name>Temperatura Muito Alta em {HOST.NAME}</name>
+                            <priority>HIGH</priority>
+                            <description>média dos ultimos 5 minutos registra CPU mais quente que 50ºC</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>dd36f62d904c45e3b26a08f23b076c25</uuid>
+                    <name>Total Subscribers PPPoE</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.2636.3.64.1.1.1.9.1.2.4.120.101.45.48</snmp_oid>
+                    <key>total.subscribers.pppoe</key>
+                    <delay>30</delay>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Subscribers</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>dbc8505853274932928b2089a0f69fb2</uuid>
+                    <name>Total Subscribers IPv4 + IPv6</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.2636.3.64.1.1.1.1.0</snmp_oid>
+                    <key>total.subscribers.soma.ipv4.ipv6</key>
+                    <delay>30</delay>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Subscribers</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>06df253349454cd1aad22ef093f380e6</uuid>
+                    <name>Total Subscribers IPv6</name>
+                    <type>CALCULATED</type>
+                    <key>total.subscribers.soma.ipv6</key>
+                    <delay>30</delay>
+                    <params>last(//total.subscribers.soma.ipv4.ipv6)-last(//total.subscribers.pppoe)</params>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Subscribers</value>
+                        </tag>
+                    </tags>
+                </item>
+            </items>
+        </template>
+    </templates>
+    <graphs>
+        <graph>
+            <uuid>b69c55f7aa6348bf857468b141300e27</uuid>
+            <name>CPU Load</name>
+            <graph_items>
+                <graph_item>
+                    <drawtype>GRADIENT_LINE</drawtype>
+                    <color>BB0000</color>
+                    <item>
+                        <host>Juniper MX204 Subscribers Counters</host>
+                        <key>cpu.utilization</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <uuid>1dcf11dabfa34bb98e52f65d076c6852</uuid>
+            <name>Memória Uso</name>
+            <graph_items>
+                <graph_item>
+                    <color>BB0000</color>
+                    <item>
+                        <host>Juniper MX204 Subscribers Counters</host>
+                        <key>memory.utilization</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <uuid>7bc3d8d86e5d4a12aba4e63ea34bc1ff</uuid>
+            <name>Temperatura</name>
+            <graph_items>
+                <graph_item>
+                    <drawtype>GRADIENT_LINE</drawtype>
+                    <color>BB0000</color>
+                    <item>
+                        <host>Juniper MX204 Subscribers Counters</host>
+                        <key>temp.junos</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <uuid>2d43f277838f43af807546ec3a5afded</uuid>
+            <name>Total Subscribers</name>
+            <graph_items>
+                <graph_item>
+                    <color>1A7C11</color>
+                    <item>
+                        <host>Juniper MX204 Subscribers Counters</host>
+                        <key>total.subscribers.pppoe</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+    </graphs>
+</zabbix_export>
